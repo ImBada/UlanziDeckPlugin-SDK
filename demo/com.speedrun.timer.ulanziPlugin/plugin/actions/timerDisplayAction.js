@@ -4,6 +4,9 @@
  * Optimized for multiple simultaneous displays
  */
 
+// Global instance counter for staggering
+TimerDisplayAction.instanceCount = 0;
+
 class TimerDisplayAction {
   constructor(context, actionUUID, signalRClient) {
     this.context = context;
@@ -18,8 +21,10 @@ class TimerDisplayAction {
     // Determine which timer this action displays
     this.timerId = this.getTimerId(actionUUID);
 
-    // Staggering: Add offset based on timer ID to distribute load
-    this.updateOffset = (this.timerId - 1) * 17; // 0ms, 17ms, 34ms, etc.
+    // Staggering: Assign unique offset per instance (not per timer ID)
+    // This ensures multiple displays of the same timer are also staggered
+    this.instanceId = TimerDisplayAction.instanceCount++;
+    this.updateOffset = this.instanceId * 25; // 0ms, 25ms, 50ms, 75ms, etc.
 
     // Create and reuse canvas for better performance
     this.canvas = document.createElement('canvas');
@@ -82,7 +87,7 @@ class TimerDisplayAction {
 
   /**
    * Start animation loop using setTimeout
-   * Update interval: 50ms (~20fps) for better performance with multiple displays
+   * Update interval: 100ms (~10fps) for better performance with multiple displays
    */
   startAnimationLoop() {
     if (!this.isRunning) {
@@ -95,8 +100,8 @@ class TimerDisplayAction {
       console.error('[TimerDisplayAction] Error in updateDisplay:', error);
     }
 
-    // 50ms interval = ~20fps (good balance between smoothness and performance)
-    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 50);
+    // 100ms interval = ~10fps (optimized for multiple displays)
+    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 100);
   }
 
   /**
