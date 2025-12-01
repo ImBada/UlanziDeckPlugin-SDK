@@ -15,15 +15,26 @@ function loadServerUrl() {
 // Initialize the Timer API Client with saved URL
 const timerAPI = new TimerAPIClient(loadServerUrl());
 
+// Initialize SignalR Client for WebSocket connection
+const signalRClient = new SignalRClient(loadServerUrl());
+
 // Cache for action instances
 const ACTION_CACHES = {};
 
 // Connect to UlanziDeck
 $UD.connect('com.speedrun.timer');
 
-$UD.onConnected(conn => {
+$UD.onConnected(async conn => {
   console.log('Speedrun Timer Plugin Connected');
   console.log('[App] Server URL:', timerAPI.baseUrl);
+
+  // Connect to SignalR for real-time timer updates
+  try {
+    await signalRClient.connect();
+    console.log('[App] SignalR connected');
+  } catch (error) {
+    console.error('[App] SignalR connection failed:', error);
+  }
 });
 
 /**
@@ -37,10 +48,16 @@ $UD.onAdd(jsn => {
 
   // Create new action instance if it doesn't exist
   if (!ACTION_CACHES[context]) {
-    ACTION_CACHES[context] = new TimerAction(context, actionUUID, timerAPI);
-    console.log('[App] Created new TimerAction instance');
+    // Check if this is a display action (shows timer) or control action (starts/pauses/resets timer)
+    if (actionUUID.includes('display')) {
+      ACTION_CACHES[context] = new TimerDisplayAction(context, actionUUID, signalRClient);
+      console.log('[App] Created new TimerDisplayAction instance');
+    } else {
+      ACTION_CACHES[context] = new TimerAction(context, actionUUID, timerAPI);
+      console.log('[App] Created new TimerAction instance');
+    }
   } else {
-    console.log('[App] TimerAction instance already exists');
+    console.log('[App] Action instance already exists');
   }
 });
 
@@ -50,6 +67,7 @@ $UD.onAdd(jsn => {
 $UD.onRun(jsn => {
   console.log('[App] Button pressed:', jsn);
   const context = jsn.context;
+  const actionUUID = jsn.uuid;
 
   console.log('[App] Context:', context);
 
@@ -59,6 +77,12 @@ $UD.onRun(jsn => {
   if (!instance) {
     console.error('[App] No action instance found for context:', context);
     console.error('[App] Available contexts:', Object.keys(ACTION_CACHES));
+    return;
+  }
+
+  // Display actions don't need to execute on button press (they auto-update)
+  if (actionUUID.includes('display')) {
+    console.log('[App] Display action pressed - no action needed');
     return;
   }
 
@@ -76,6 +100,13 @@ $UD.onClear(jsn => {
   if (jsn.param) {
     for (let i = 0; i < jsn.param.length; i++) {
       const context = jsn.param[i].context;
+      const instance = ACTION_CACHES[context];
+
+      // Clean up TimerDisplayAction instances
+      if (instance && instance.destroy) {
+        instance.destroy();
+      }
+
       delete ACTION_CACHES[context];
       console.log('Action cleared:', context);
     }
