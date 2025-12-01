@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Speedrun Timer Display Plugin</title>
+</head>
+<body>
+  <script src="../libs/js/constants.js"></script>
+  <script src="../libs/js/eventEmitter.js"></script>
+  <script src="../libs/js/timers.js"></script>
+  <script src="../libs/js/utils.js"></script>
+  <script src="../libs/js/ulanzideckApi.js"></script>
+
+  <!-- SignalR Library for WebSocket Connection -->
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+
+  <!-- Display-only scripts (lightweight, separate process) -->
+  <script src="./actions/signalRClient.js"></script>
+  <script src="./actions/timerDisplayAction.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
