@@ -87,9 +87,18 @@ class TimerDisplayAction {
       return;
     }
 
-    console.log('[TimerDisplayAction] Animation frame - isRunning:', this.isRunning, 'animationFrameId:', this.animationFrameId);
-    this.updateDisplay();
+    console.log('[TimerDisplayAction] Animation frame START - isRunning:', this.isRunning);
+
+    try {
+      this.updateDisplay();
+      console.log('[TimerDisplayAction] updateDisplay completed successfully');
+    } catch (error) {
+      console.error('[TimerDisplayAction] Error in updateDisplay:', error);
+    }
+
+    console.log('[TimerDisplayAction] Scheduling next frame...');
     this.animationFrameId = requestAnimationFrame(() => this.startAnimationLoop());
+    console.log('[TimerDisplayAction] Next frame scheduled with ID:', this.animationFrameId);
   }
 
   /**
