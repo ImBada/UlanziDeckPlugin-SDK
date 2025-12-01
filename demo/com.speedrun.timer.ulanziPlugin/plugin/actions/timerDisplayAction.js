@@ -26,17 +26,28 @@ class TimerDisplayAction {
     // Staggering: Assign unique offset per instance (not per timer ID)
     // This ensures multiple displays of the same timer are also staggered
     this.instanceId = TimerDisplayAction.instanceCount++;
-    this.updateOffset = this.instanceId * 50; // 0ms, 50ms, 100ms, 150ms, etc.
+    this.updateOffset = this.instanceId * 40; // 0ms, 40ms, 80ms, 120ms, 160ms, etc.
 
     // Create and reuse canvas for better performance
     this.canvas = document.createElement('canvas');
     this.canvas.width = 72;
     this.canvas.height = 72;
-    this.ctx = this.canvas.getContext('2d');
+    // Optimized context options for better performance
+    this.ctx = this.canvas.getContext('2d', {
+      alpha: false,        // No transparency needed - 10-20% faster
+      desynchronized: true // Async rendering for smoother updates
+    });
 
     // Pre-set text properties that don't change
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
+
+    // Pre-define colors for each status (cache)
+    this.colors = {
+      reset: { main: '#FFFF00', millis: '#CCCC00' },    // Yellow
+      running: { main: '#FFFFFF', millis: '#CCCCCC' },  // White
+      paused: { main: '#FF0000', millis: '#CC0000' }    // Red
+    };
 
     // Subscribe to timer updates
     this.subscribeToTimer();
@@ -133,35 +144,19 @@ class TimerDisplayAction {
     const mainTime = timeParts[0];  // HH:MM:SS
     const millis = timeParts[1];    // mmm
 
-    // Determine color based on timer status
-    let mainColor, millisColor;
-    if (this.currentStopwatch.status === 2) {
-      // Reset - Yellow
-      mainColor = '#FFFF00';
-      millisColor = '#CCCC00';
-    } else if (this.currentStopwatch.status === 0) {
-      // Running - White
-      mainColor = '#FFFFFF';
-      millisColor = '#CCCCCC';
-    } else if (this.currentStopwatch.status === 1) {
-      // Paused - Red
-      mainColor = '#FF0000';
-      millisColor = '#CC0000';
-    }
+    // Get colors from cache based on timer status
+    const color = this.currentStopwatch.status === 2 ? this.colors.reset :
+                  this.currentStopwatch.status === 0 ? this.colors.running :
+                  this.colors.paused;
 
-    // Main time - larger and with stroke
-    this.ctx.font = 'bold 13px monospace';
-    this.ctx.strokeStyle = '#000000';
-    this.ctx.lineWidth = 3;
-    this.ctx.strokeText(mainTime, 36, 30);
-    this.ctx.fillStyle = mainColor;
+    // Main time - larger, no stroke for faster rendering
+    this.ctx.font = 'bold 14px monospace';
+    this.ctx.fillStyle = color.main;
     this.ctx.fillText(mainTime, 36, 30);
 
-    // Milliseconds - smaller
-    this.ctx.font = 'bold 10px monospace';
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeText('.' + millis, 36, 48);
-    this.ctx.fillStyle = millisColor;
+    // Milliseconds - smaller, no stroke
+    this.ctx.font = 'bold 11px monospace';
+    this.ctx.fillStyle = color.millis;
     this.ctx.fillText('.' + millis, 36, 48);
 
     // Convert canvas to base64
