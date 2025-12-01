@@ -71,7 +71,7 @@ class TimerDisplayAction {
       console.log('[TimerDisplayAction] Stopping animation loop');
       this.isRunning = false;
       if (this.animationFrameId) {
-        cancelAnimationFrame(this.animationFrameId);
+        clearTimeout(this.animationFrameId);
         this.animationFrameId = null;
       }
       this.updateDisplay();
@@ -79,7 +79,7 @@ class TimerDisplayAction {
   }
 
   /**
-   * Start animation loop using requestAnimationFrame
+   * Start animation loop using setTimeout (more compatible than requestAnimationFrame)
    */
   startAnimationLoop() {
     if (!this.isRunning) {
@@ -96,8 +96,10 @@ class TimerDisplayAction {
       console.error('[TimerDisplayAction] Error in updateDisplay:', error);
     }
 
+    // Use setTimeout instead of requestAnimationFrame for better compatibility in plugin environment
+    // ~16ms = ~60fps, but we'll use a slightly longer interval for stability
     console.log('[TimerDisplayAction] Scheduling next frame...');
-    this.animationFrameId = requestAnimationFrame(() => this.startAnimationLoop());
+    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 16);
     console.log('[TimerDisplayAction] Next frame scheduled with ID:', this.animationFrameId);
   }
 
@@ -174,9 +176,9 @@ class TimerDisplayAction {
     // Stop animation
     this.isRunning = false;
 
-    // Cancel animation frame
+    // Clear timeout
     if (this.animationFrameId) {
-      cancelAnimationFrame(this.animationFrameId);
+      clearTimeout(this.animationFrameId);
       this.animationFrameId = null;
     }
 
