@@ -54,16 +54,21 @@ class TimerDisplayAction {
    * Handle timer update
    */
   handleTimerUpdate(stopwatch) {
+    console.log('[TimerDisplayAction] handleTimerUpdate - status:', stopwatch.status, 'isRunning:', this.isRunning);
     this.currentStopwatch = stopwatch;
 
     if (stopwatch.status === 0) {
       // Running - start animation loop if not already running
       if (!this.isRunning) {
+        console.log('[TimerDisplayAction] Starting animation loop');
         this.isRunning = true;
         this.startAnimationLoop();
+      } else {
+        console.log('[TimerDisplayAction] Animation loop already running');
       }
     } else {
       // Paused or Reset - stop animation and update once
+      console.log('[TimerDisplayAction] Stopping animation loop');
       this.isRunning = false;
       if (this.animationFrameId) {
         cancelAnimationFrame(this.animationFrameId);
@@ -77,11 +82,14 @@ class TimerDisplayAction {
    * Start animation loop using requestAnimationFrame
    */
   startAnimationLoop() {
-    this.updateDisplay();
-
-    if (this.isRunning) {
-      this.animationFrameId = requestAnimationFrame(() => this.startAnimationLoop());
+    if (!this.isRunning) {
+      console.log('[TimerDisplayAction] Animation loop stopped - isRunning is false');
+      return;
     }
+
+    console.log('[TimerDisplayAction] Animation frame - isRunning:', this.isRunning, 'animationFrameId:', this.animationFrameId);
+    this.updateDisplay();
+    this.animationFrameId = requestAnimationFrame(() => this.startAnimationLoop());
   }
 
   /**
