@@ -54,12 +54,9 @@ $UD.onAdd(jsn => {
 
 /**
  * When a button is pressed (display actions don't need button press handling)
- * Return false to prevent default button press animation
  */
 $UD.onRun(jsn => {
-  console.log('[Display] Button pressed - preventing default animation');
-  // Try to prevent default D200 button press animation
-  return false;
+  console.log('[Display] Button pressed - display actions auto-update, no action needed');
 });
 
 /**
