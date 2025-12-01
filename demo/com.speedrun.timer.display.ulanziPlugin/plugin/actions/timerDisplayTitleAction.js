@@ -1,7 +1,7 @@
 /**
  * Timer Display Title Action Handler
  * Displays real-time timer data using Title text updates (no canvas rendering)
- * Optimized for static black background with text overlay
+ * Uses manifest state image as background with text overlay
  */
 
 class TimerDisplayTitleAction {
@@ -27,17 +27,8 @@ class TimerDisplayTitleAction {
     this.instanceId = TimerDisplayTitleAction.instanceCount++;
     this.updateOffset = this.instanceId * 40; // 0ms, 40ms, 80ms, 120ms, 160ms, etc.
 
-    // Create reusable canvas for black background
-    this.canvas = document.createElement('canvas');
-    this.canvas.width = 72;
-    this.canvas.height = 72;
-    const ctx = this.canvas.getContext('2d');
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, 72, 72);
-    this.staticBackgroundData = this.canvas.toDataURL('image/png').split(',')[1];
-
-    // Set initial display with empty text
-    $UD.setBaseDataIcon(this.context, this.staticBackgroundData, '');
+    // Set initial display with state icon and empty text
+    $UD.setStateIcon(this.context, 0, '');
 
     // Subscribe to timer updates
     this.subscribeToTimer();
@@ -134,9 +125,9 @@ class TimerDisplayTitleAction {
     // Combine with newline for multi-line display
     const displayText = `${mainTime}\n.${millis}`;
 
-    // Update button with text overlay on static black background
-    // Pass displayText as third parameter to show text overlay
-    $UD.setBaseDataIcon(this.context, this.staticBackgroundData, displayText);
+    // Update button with text overlay using setStateIcon
+    // State 0 uses the Image from manifest States[0]
+    $UD.setStateIcon(this.context, 0, displayText);
   }
 
   /**
@@ -157,9 +148,5 @@ class TimerDisplayTitleAction {
       this.unsubscribe();
       this.unsubscribe = null;
     }
-
-    // Clean up canvas
-    this.canvas = null;
-    this.staticBackgroundData = null;
   }
 }
