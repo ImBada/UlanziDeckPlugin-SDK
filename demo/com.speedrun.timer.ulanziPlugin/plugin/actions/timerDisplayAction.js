@@ -26,9 +26,7 @@ class TimerDisplayAction {
     // Staggering: Assign unique offset per instance (not per timer ID)
     // This ensures multiple displays of the same timer are also staggered
     this.instanceId = TimerDisplayAction.instanceCount++;
-    this.updateOffset = this.instanceId * 25; // 0ms, 25ms, 50ms, 75ms, etc.
-
-    console.log('[TimerDisplayAction] Created instance', this.instanceId, 'for timer', this.timerId, 'with offset:', this.updateOffset);
+    this.updateOffset = this.instanceId * 50; // 0ms, 50ms, 100ms, 150ms, etc.
 
     // Create and reuse canvas for better performance
     this.canvas = document.createElement('canvas');
@@ -69,20 +67,17 @@ class TimerDisplayAction {
    * Handle timer update
    */
   handleTimerUpdate(stopwatch) {
-    console.log('[TimerDisplayAction] handleTimerUpdate - instanceId:', this.instanceId, 'status:', stopwatch.status, 'isRunning:', this.isRunning, 'offset:', this.updateOffset);
     this.currentStopwatch = stopwatch;
 
     if (stopwatch.status === 0) {
       // Running - start animation loop if not already running
       if (!this.isRunning) {
-        console.log('[TimerDisplayAction] Starting animation loop with offset:', this.updateOffset);
         this.isRunning = true;
         // Apply staggering offset on initial start
         setTimeout(() => this.startAnimationLoop(), this.updateOffset);
       }
     } else {
       // Paused or Reset - stop animation and update once
-      console.log('[TimerDisplayAction] Stopping animation loop');
       this.isRunning = false;
       if (this.animationFrameId) {
         clearTimeout(this.animationFrameId);
@@ -94,25 +89,21 @@ class TimerDisplayAction {
 
   /**
    * Start animation loop using setTimeout
-   * Update interval: 100ms (~10fps) for better performance with multiple displays
+   * Update interval: 200ms (~5fps) for better performance with multiple displays
    */
   startAnimationLoop() {
-    console.log('[TimerDisplayAction] startAnimationLoop called - instanceId:', this.instanceId, 'isRunning:', this.isRunning);
     if (!this.isRunning) {
-      console.log('[TimerDisplayAction] Loop stopped - isRunning is false');
       return;
     }
 
     try {
       this.updateDisplay();
-      console.log('[TimerDisplayAction] updateDisplay completed');
     } catch (error) {
       console.error('[TimerDisplayAction] Error in updateDisplay:', error);
     }
 
-    // 100ms interval = ~10fps (optimized for multiple displays)
-    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 100);
-    console.log('[TimerDisplayAction] Next frame scheduled');
+    // 200ms interval = ~5fps (optimized for multiple displays with minimal lag)
+    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 200);
   }
 
   /**
