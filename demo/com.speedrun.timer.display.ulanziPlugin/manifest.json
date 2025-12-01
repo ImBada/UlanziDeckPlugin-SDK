@@ -13,7 +13,8 @@
       ],
       "Tooltip": "Display Player 1 timer via WebSocket",
       "UUID": "com.speedrun.timer.display.timerdisplay1",
-      "SupportedInMultiActions": false
+      "SupportedInMultiActions": false,
+      "UserTitleEnabled": false
     },
     {
       "Name": "TimerDisplay2",
@@ -28,7 +29,8 @@
       ],
       "Tooltip": "Display Player 2 timer via WebSocket",
       "UUID": "com.speedrun.timer.display.timerdisplay2",
-      "SupportedInMultiActions": false
+      "SupportedInMultiActions": false,
+      "UserTitleEnabled": false
     }
   ],
   "Author": "Speedrun Timer",
