@@ -56,19 +56,19 @@ class TimerDisplayAction {
   handleTimerUpdate(stopwatch) {
     this.currentStopwatch = stopwatch;
 
-    // Cancel existing animation frame
-    if (this.animationFrameId) {
-      cancelAnimationFrame(this.animationFrameId);
-      this.animationFrameId = null;
-    }
-
     if (stopwatch.status === 0) {
-      // Running - use requestAnimationFrame for smooth updates
-      this.isRunning = true;
-      this.startAnimationLoop();
+      // Running - start animation loop if not already running
+      if (!this.isRunning) {
+        this.isRunning = true;
+        this.startAnimationLoop();
+      }
     } else {
-      // Paused or Reset - update once and stop animation
+      // Paused or Reset - stop animation and update once
       this.isRunning = false;
+      if (this.animationFrameId) {
+        cancelAnimationFrame(this.animationFrameId);
+        this.animationFrameId = null;
+      }
       this.updateDisplay();
     }
   }
