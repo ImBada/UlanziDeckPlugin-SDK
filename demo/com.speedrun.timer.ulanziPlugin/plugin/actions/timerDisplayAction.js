@@ -9,11 +9,18 @@ class TimerDisplayAction {
     this.actionUUID = actionUUID;
     this.signalRClient = signalRClient;
     this.unsubscribe = null;
-    this.updateInterval = null;
+    this.animationFrameId = null;
     this.currentStopwatch = null;
+    this.isRunning = false;
 
     // Determine which timer this action displays
     this.timerId = this.getTimerId(actionUUID);
+
+    // Create and reuse canvas for better performance
+    this.canvas = document.createElement('canvas');
+    this.canvas.width = 72;
+    this.canvas.height = 72;
+    this.ctx = this.canvas.getContext('2d');
 
     console.log('[TimerDisplayAction] Created for timer', this.timerId);
 
@@ -49,21 +56,31 @@ class TimerDisplayAction {
   handleTimerUpdate(stopwatch) {
     this.currentStopwatch = stopwatch;
 
-    // Clear existing interval
-    if (this.updateInterval) {
-      clearInterval(this.updateInterval);
-      this.updateInterval = null;
+    // Cancel existing animation frame
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
     }
 
     if (stopwatch.status === 0) {
-      // Running - update display every 60ms
-      this.updateDisplay();
-      this.updateInterval = setInterval(() => {
-        this.updateDisplay();
-      }, 60);
+      // Running - use requestAnimationFrame for smooth updates
+      this.isRunning = true;
+      this.startAnimationLoop();
     } else {
-      // Paused or Reset - update once
+      // Paused or Reset - update once and stop animation
+      this.isRunning = false;
       this.updateDisplay();
+    }
+  }
+
+  /**
+   * Start animation loop using requestAnimationFrame
+   */
+  startAnimationLoop() {
+    this.updateDisplay();
+
+    if (this.isRunning) {
+      this.animationFrameId = requestAnimationFrame(() => this.startAnimationLoop());
     }
   }
 
@@ -80,15 +97,9 @@ class TimerDisplayAction {
 
     console.log('[TimerDisplayAction] Updating display:', timeString);
 
-    // Create canvas to render timer text as image
-    const canvas = document.createElement('canvas');
-    canvas.width = 72;
-    canvas.height = 72;
-    const ctx = canvas.getContext('2d');
-
-    // Draw background (solid black for better contrast)
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, 72, 72);
+    // Clear canvas (reuse existing canvas for better performance)
+    this.ctx.fillStyle = '#000000';
+    this.ctx.fillRect(0, 0, 72, 72);
 
     // Split time string to fit on button
     const timeParts = timeString.split('.');
@@ -111,28 +122,27 @@ class TimerDisplayAction {
       millisColor = '#CC0000';
     }
 
-    // Draw main time with outline for better visibility
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    // Set text properties once
+    this.ctx.textAlign = 'center';
+    this.ctx.textBaseline = 'middle';
 
     // Main time - larger and with stroke
-    ctx.font = 'bold 13px monospace';
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 3;
-    ctx.strokeText(mainTime, 36, 30);
-    ctx.fillStyle = mainColor;
-    ctx.fillText(mainTime, 36, 30);
+    this.ctx.font = 'bold 13px monospace';
+    this.ctx.strokeStyle = '#000000';
+    this.ctx.lineWidth = 3;
+    this.ctx.strokeText(mainTime, 36, 30);
+    this.ctx.fillStyle = mainColor;
+    this.ctx.fillText(mainTime, 36, 30);
 
     // Milliseconds - smaller
-    ctx.font = 'bold 10px monospace';
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 2;
-    ctx.strokeText('.' + millis, 36, 48);
-    ctx.fillStyle = millisColor;
-    ctx.fillText('.' + millis, 36, 48);
+    this.ctx.font = 'bold 10px monospace';
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeText('.' + millis, 36, 48);
+    this.ctx.fillStyle = millisColor;
+    this.ctx.fillText('.' + millis, 36, 48);
 
     // Convert canvas to base64
-    const imageData = canvas.toDataURL('image/png').split(',')[1];
+    const imageData = this.canvas.toDataURL('image/png').split(',')[1];
 
     // Update button with rendered image
     $UD.setBaseDataIcon(this.context, imageData);
@@ -144,16 +154,23 @@ class TimerDisplayAction {
   destroy() {
     console.log('[TimerDisplayAction] Destroying action for timer', this.timerId);
 
+    // Stop animation
+    this.isRunning = false;
+
+    // Cancel animation frame
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+
     // Unsubscribe from timer updates
     if (this.unsubscribe) {
       this.unsubscribe();
       this.unsubscribe = null;
     }
 
-    // Clear update interval
-    if (this.updateInterval) {
-      clearInterval(this.updateInterval);
-      this.updateInterval = null;
-    }
+    // Clean up canvas
+    this.canvas = null;
+    this.ctx = null;
   }
 }
