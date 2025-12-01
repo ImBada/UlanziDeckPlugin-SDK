@@ -38,7 +38,8 @@
       "States": [
         {
           "Name": "TimerDisplayTitle1",
-          "Image": "assets/icons/clock.png"
+          "Image": "assets/icons/clock.png",
+          "CustomTitle": true
         }
       ],
       "Tooltip": "Display Player 1 timer via WebSocket (Title Text)",
@@ -53,7 +54,8 @@
       "States": [
         {
           "Name": "TimerDisplayTitle2",
-          "Image": "assets/icons/clock.png"
+          "Image": "assets/icons/clock.png",
+          "CustomTitle": true
         }
       ],
       "Tooltip": "Display Player 2 timer via WebSocket (Title Text)",

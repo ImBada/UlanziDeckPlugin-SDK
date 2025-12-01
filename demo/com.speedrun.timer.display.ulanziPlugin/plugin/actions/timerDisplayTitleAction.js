@@ -27,8 +27,17 @@ class TimerDisplayTitleAction {
     this.instanceId = TimerDisplayTitleAction.instanceCount++;
     this.updateOffset = this.instanceId * 40; // 0ms, 40ms, 80ms, 120ms, 160ms, etc.
 
-    // Set static black background (one time setup)
-    this.setStaticBackground();
+    // Create reusable canvas for black background
+    this.canvas = document.createElement('canvas');
+    this.canvas.width = 72;
+    this.canvas.height = 72;
+    const ctx = this.canvas.getContext('2d');
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, 72, 72);
+    this.staticBackgroundData = this.canvas.toDataURL('image/png').split(',')[1];
+
+    // Set initial display with empty text
+    $UD.setBaseDataIcon(this.context, this.staticBackgroundData, '');
 
     // Subscribe to timer updates
     this.subscribeToTimer();
@@ -44,26 +53,6 @@ class TimerDisplayTitleAction {
       return 2;
     }
     return 1; // Default to timer 1
-  }
-
-  /**
-   * Set static black background for the button
-   * This is called once during initialization
-   */
-  setStaticBackground() {
-    // Create a simple black 72x72 canvas
-    const canvas = document.createElement('canvas');
-    canvas.width = 72;
-    canvas.height = 72;
-    const ctx = canvas.getContext('2d');
-
-    // Fill with black
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, 72, 72);
-
-    // Convert to base64 and set as button background
-    const imageData = canvas.toDataURL('image/png').split(',')[1];
-    $UD.setBaseDataIcon(this.context, imageData);
   }
 
   /**
@@ -145,8 +134,9 @@ class TimerDisplayTitleAction {
     // Combine with newline for multi-line display
     const displayText = `${mainTime}\n.${millis}`;
 
-    // Update button title (text overlay on black background)
-    $UD.setTitle(this.context, displayText);
+    // Update button with text overlay on static black background
+    // Pass displayText as third parameter to show text overlay
+    $UD.setBaseDataIcon(this.context, this.staticBackgroundData, displayText);
   }
 
   /**
@@ -167,5 +157,9 @@ class TimerDisplayTitleAction {
       this.unsubscribe();
       this.unsubscribe = null;
     }
+
+    // Clean up canvas
+    this.canvas = null;
+    this.staticBackgroundData = null;
   }
 }
