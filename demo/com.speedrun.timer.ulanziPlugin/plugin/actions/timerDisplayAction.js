@@ -56,11 +56,11 @@ class TimerDisplayAction {
     }
 
     if (stopwatch.status === 0) {
-      // Running - update display every 100ms
+      // Running - update display every 60ms
       this.updateDisplay();
       this.updateInterval = setInterval(() => {
         this.updateDisplay();
-      }, 100);
+      }, 60);
     } else {
       // Paused or Reset - update once
       this.updateDisplay();
