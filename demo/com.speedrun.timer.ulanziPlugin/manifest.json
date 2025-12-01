@@ -66,6 +66,10 @@
         {
           "Name": "Reset",
           "Image": "assets/icons/reset.png"
+        },
+        {
+          "Name": "Reset (Success)",
+          "Image": "assets/icons/reset.png"
         }
       ],
       "Tooltip": "Reset both timers",
