@@ -4,9 +4,6 @@
  * Optimized for multiple simultaneous displays
  */
 
-// Global instance counter for staggering
-TimerDisplayAction.instanceCount = 0;
-
 class TimerDisplayAction {
   constructor(context, actionUUID, signalRClient) {
     this.context = context;
@@ -20,6 +17,11 @@ class TimerDisplayAction {
 
     // Determine which timer this action displays
     this.timerId = this.getTimerId(actionUUID);
+
+    // Initialize instance counter if not exists
+    if (typeof TimerDisplayAction.instanceCount === 'undefined') {
+      TimerDisplayAction.instanceCount = 0;
+    }
 
     // Staggering: Assign unique offset per instance (not per timer ID)
     // This ensures multiple displays of the same timer are also staggered
