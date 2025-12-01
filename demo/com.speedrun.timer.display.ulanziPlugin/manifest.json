@@ -14,7 +14,10 @@
       "Tooltip": "Display Player 1 timer via WebSocket",
       "UUID": "com.speedrun.timer.display.timerdisplay1",
       "SupportedInMultiActions": false,
-      "UserTitleEnabled": false
+      "UserTitleEnabled": false,
+      "DisableAnimation": true,
+      "DisablePressEffect": true,
+      "VisualFeedback": false
     },
     {
       "Name": "TimerDisplay2",
@@ -30,7 +33,10 @@
       "Tooltip": "Display Player 2 timer via WebSocket",
       "UUID": "com.speedrun.timer.display.timerdisplay2",
       "SupportedInMultiActions": false,
-      "UserTitleEnabled": false
+      "UserTitleEnabled": false,
+      "DisableAnimation": true,
+      "DisablePressEffect": true,
+      "VisualFeedback": false
     }
   ],
   "Author": "Speedrun Timer",
