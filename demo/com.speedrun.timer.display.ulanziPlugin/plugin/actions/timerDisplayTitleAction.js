@@ -28,7 +28,20 @@ class TimerDisplayTitleAction {
     this.updateOffset = this.instanceId * 40; // 0ms, 40ms, 80ms, 120ms, 160ms, etc.
 
     // Set initial display with state icon and empty text
-    $UD.setStateIcon(this.context, 0, '');
+    const { uuid, key, actionid } = $UD.decodeContext(this.context);
+    $UD.send('state', {
+      param: {
+        statelist: [{
+          uuid,
+          key,
+          actionid,
+          type: 0,
+          state: 0,
+          textData: '',
+          showtext: false
+        }]
+      }
+    });
 
     // Subscribe to timer updates
     this.subscribeToTimer();
@@ -125,9 +138,22 @@ class TimerDisplayTitleAction {
     // Combine with newline for multi-line display
     const displayText = `${mainTime}\n.${millis}`;
 
-    // Update button with text overlay using setStateIcon
-    // State 0 uses the Image from manifest States[0]
-    $UD.setStateIcon(this.context, 0, displayText);
+    // Update button with text overlay - following Home Assistant pattern
+    // Use direct send() like Home Assistant does
+    const { uuid, key, actionid } = $UD.decodeContext(this.context);
+    $UD.send('state', {
+      param: {
+        statelist: [{
+          uuid,
+          key,
+          actionid,
+          type: 0,
+          state: 0,
+          textData: displayText,
+          showtext: true
+        }]
+      }
+    });
   }
 
   /**
