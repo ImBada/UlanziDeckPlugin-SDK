@@ -100,7 +100,7 @@ class TimerDisplayAction {
 
   /**
    * Start animation loop using setTimeout
-   * Update interval: 200ms (~5fps) for better performance with multiple displays
+   * Update interval: 100ms (~10fps) for smoother display updates
    */
   startAnimationLoop() {
     if (!this.isRunning) {
@@ -113,8 +113,8 @@ class TimerDisplayAction {
       console.error('[TimerDisplayAction] Error in updateDisplay:', error);
     }
 
-    // 200ms interval = ~5fps (optimized for multiple displays with minimal lag)
-    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 200);
+    // 100ms interval = ~10fps (balanced smoothness and performance)
+    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 100);
   }
 
   /**
