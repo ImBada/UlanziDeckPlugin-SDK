@@ -66,46 +66,22 @@
         {
           "Name": "Reset",
           "Image": "assets/icons/reset.png"
+        },
+        {
+          "Name": "Reset (Success)",
+          "Image": "assets/icons/reset@1.png"
         }
       ],
       "Tooltip": "Reset both timers",
       "UUID": "com.speedrun.timer.reset",
       "SupportedInMultiActions": true
-    },
-    {
-      "Name": "TimerDisplay1",
-      "Icon": "assets/icons/display1p.png",
-      "State": 0,
-      "States": [
-        {
-          "Name": "TimerDisplay1",
-          "Image": "assets/icons/display1p.png"
-        }
-      ],
-      "Tooltip": "Display Player 1 timer via WebSocket",
-      "UUID": "com.speedrun.timer.timerdisplay1",
-      "SupportedInMultiActions": false
-    },
-    {
-      "Name": "TimerDisplay2",
-      "Icon": "assets/icons/display2p.png",
-      "State": 0,
-      "States": [
-        {
-          "Name": "TimerDisplay2",
-          "Image": "assets/icons/display2p.png"
-        }
-      ],
-      "Tooltip": "Display Player 2 timer via WebSocket",
-      "UUID": "com.speedrun.timer.timerdisplay2",
-      "SupportedInMultiActions": false
     }
   ],
   "Author": "Speedrun Timer",
   "Name": "Speedrun Timer",
-  "Description": "Control speedrun event timers via localhost:5010 API",
+  "Description": "Control speedrun event timers via localhost:5010 API (lightweight control buttons)",
   "Icon": "assets/icons/plugin.png",
-  "Version": "1.1.4",
+  "Version": "1.2.0",
   "Category": "Speedrun",
   "CategoryIcon": "assets/icons/category.png",
   "CodePath": "plugin/app.html",
