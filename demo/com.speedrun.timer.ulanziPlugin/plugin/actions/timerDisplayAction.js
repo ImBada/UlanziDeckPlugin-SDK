@@ -1,6 +1,7 @@
 /**
  * Timer Display Action Handler
  * Displays real-time timer data received via WebSocket
+ * Optimized for multiple simultaneous displays
  */
 
 class TimerDisplayAction {
@@ -12,9 +13,13 @@ class TimerDisplayAction {
     this.animationFrameId = null;
     this.currentStopwatch = null;
     this.isRunning = false;
+    this.lastTimeString = null; // Cache for optimization
 
     // Determine which timer this action displays
     this.timerId = this.getTimerId(actionUUID);
+
+    // Staggering: Add offset based on timer ID to distribute load
+    this.updateOffset = (this.timerId - 1) * 17; // 0ms, 17ms, 34ms, etc.
 
     // Create and reuse canvas for better performance
     this.canvas = document.createElement('canvas');
@@ -22,7 +27,9 @@ class TimerDisplayAction {
     this.canvas.height = 72;
     this.ctx = this.canvas.getContext('2d');
 
-    console.log('[TimerDisplayAction] Created for timer', this.timerId);
+    // Pre-set text properties that don't change
+    this.ctx.textAlign = 'center';
+    this.ctx.textBaseline = 'middle';
 
     // Subscribe to timer updates
     this.subscribeToTimer();
@@ -45,7 +52,6 @@ class TimerDisplayAction {
    */
   subscribeToTimer() {
     this.unsubscribe = this.signalRClient.subscribe(this.timerId, (stopwatch) => {
-      console.log('[TimerDisplayAction] Received update for timer', this.timerId, ':', stopwatch);
       this.handleTimerUpdate(stopwatch);
     });
   }
@@ -54,21 +60,17 @@ class TimerDisplayAction {
    * Handle timer update
    */
   handleTimerUpdate(stopwatch) {
-    console.log('[TimerDisplayAction] handleTimerUpdate - status:', stopwatch.status, 'isRunning:', this.isRunning);
     this.currentStopwatch = stopwatch;
 
     if (stopwatch.status === 0) {
       // Running - start animation loop if not already running
       if (!this.isRunning) {
-        console.log('[TimerDisplayAction] Starting animation loop');
         this.isRunning = true;
-        this.startAnimationLoop();
-      } else {
-        console.log('[TimerDisplayAction] Animation loop already running');
+        // Apply staggering offset on initial start
+        setTimeout(() => this.startAnimationLoop(), this.updateOffset);
       }
     } else {
       // Paused or Reset - stop animation and update once
-      console.log('[TimerDisplayAction] Stopping animation loop');
       this.isRunning = false;
       if (this.animationFrameId) {
         clearTimeout(this.animationFrameId);
@@ -79,32 +81,27 @@ class TimerDisplayAction {
   }
 
   /**
-   * Start animation loop using setTimeout (more compatible than requestAnimationFrame)
+   * Start animation loop using setTimeout
+   * Update interval: 50ms (~20fps) for better performance with multiple displays
    */
   startAnimationLoop() {
     if (!this.isRunning) {
-      console.log('[TimerDisplayAction] Animation loop stopped - isRunning is false');
       return;
     }
 
-    console.log('[TimerDisplayAction] Animation frame START - isRunning:', this.isRunning);
-
     try {
       this.updateDisplay();
-      console.log('[TimerDisplayAction] updateDisplay completed successfully');
     } catch (error) {
       console.error('[TimerDisplayAction] Error in updateDisplay:', error);
     }
 
-    // Use setTimeout instead of requestAnimationFrame for better compatibility in plugin environment
-    // ~16ms = ~60fps, but we'll use a slightly longer interval for stability
-    console.log('[TimerDisplayAction] Scheduling next frame...');
-    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 16);
-    console.log('[TimerDisplayAction] Next frame scheduled with ID:', this.animationFrameId);
+    // 50ms interval = ~20fps (good balance between smoothness and performance)
+    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 50);
   }
 
   /**
    * Update button display with current time
+   * Optimized to skip rendering if time hasn't changed
    */
   updateDisplay() {
     if (!this.currentStopwatch) {
@@ -114,7 +111,11 @@ class TimerDisplayAction {
     const elapsed = this.signalRClient.calculateElapsedTime(this.currentStopwatch);
     const timeString = this.signalRClient.formatTime(elapsed);
 
-    console.log('[TimerDisplayAction] Updating display:', timeString);
+    // Skip rendering if time string hasn't changed (optimization)
+    if (timeString === this.lastTimeString) {
+      return;
+    }
+    this.lastTimeString = timeString;
 
     // Clear canvas (reuse existing canvas for better performance)
     this.ctx.fillStyle = '#000000';
@@ -140,10 +141,6 @@ class TimerDisplayAction {
       mainColor = '#FF0000';
       millisColor = '#CC0000';
     }
-
-    // Set text properties once
-    this.ctx.textAlign = 'center';
-    this.ctx.textBaseline = 'middle';
 
     // Main time - larger and with stroke
     this.ctx.font = 'bold 13px monospace';
@@ -171,8 +168,6 @@ class TimerDisplayAction {
    * Clean up when action is removed
    */
   destroy() {
-    console.log('[TimerDisplayAction] Destroying action for timer', this.timerId);
-
     // Stop animation
     this.isRunning = false;
 
