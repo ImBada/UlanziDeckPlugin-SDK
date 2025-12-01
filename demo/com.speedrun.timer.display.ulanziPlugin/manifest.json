@@ -2,13 +2,13 @@
   "Actions": [
     {
       "Name": "TimerDisplay1",
-      "Icon": "assets/icons/display1p.png",
+      "Icon": "assets/icons/clock.png",
       "PropertyInspectorPath": "property-inspector/inspector.html",
       "State": 0,
       "States": [
         {
           "Name": "TimerDisplay1",
-          "Image": "assets/icons/display1p.png"
+          "Image": "assets/icons/clock.png"
         }
       ],
       "Tooltip": "Display Player 1 timer via WebSocket",
@@ -17,13 +17,13 @@
     },
     {
       "Name": "TimerDisplay2",
-      "Icon": "assets/icons/display2p.png",
+      "Icon": "assets/icons/clock.png",
       "PropertyInspectorPath": "property-inspector/inspector.html",
       "State": 0,
       "States": [
         {
           "Name": "TimerDisplay2",
-          "Image": "assets/icons/display2p.png"
+          "Image": "assets/icons/clock.png"
         }
       ],
       "Tooltip": "Display Player 2 timer via WebSocket",
@@ -34,7 +34,7 @@
   "Author": "Speedrun Timer",
   "Name": "Speedrun Timer Display",
   "Description": "Display speedrun event timers (separate process for better performance)",
-  "Icon": "assets/icons/plugin.png",
+  "Icon": "assets/icons/clock.png",
   "Version": "1.0.0",
   "Category": "Speedrun",
   "CategoryIcon": "assets/icons/category.png",

@@ -69,7 +69,7 @@
         },
         {
           "Name": "Reset (Success)",
-          "Image": "assets/icons/reset.png"
+          "Image": "assets/icons/reset@1.png"
         }
       ],
       "Tooltip": "Reset both timers",
