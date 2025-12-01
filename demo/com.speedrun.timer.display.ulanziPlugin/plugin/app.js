@@ -43,10 +43,17 @@ $UD.onAdd(jsn => {
 
   console.log('[Display] Action added:', actionUUID, 'Context:', context);
 
-  // Create new TimerDisplayAction instance if it doesn't exist
+  // Create appropriate action instance based on UUID
   if (!ACTION_CACHES[context]) {
-    ACTION_CACHES[context] = new TimerDisplayAction(context, actionUUID, signalRClient);
-    console.log('[Display] Created new TimerDisplayAction instance');
+    // Check if this is a Title-based display action
+    if (actionUUID.includes('title')) {
+      ACTION_CACHES[context] = new TimerDisplayTitleAction(context, actionUUID, signalRClient);
+      console.log('[Display] Created new TimerDisplayTitleAction instance');
+    } else {
+      // Default to canvas-based display
+      ACTION_CACHES[context] = new TimerDisplayAction(context, actionUUID, signalRClient);
+      console.log('[Display] Created new TimerDisplayAction instance');
+    }
   } else {
     console.log('[Display] Action instance already exists');
   }

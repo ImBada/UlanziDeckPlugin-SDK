@@ -11,7 +11,7 @@
           "Image": "assets/icons/clock.png"
         }
       ],
-      "Tooltip": "Display Player 1 timer via WebSocket",
+      "Tooltip": "Display Player 1 timer via WebSocket (Canvas)",
       "UUID": "com.speedrun.timer.display.timerdisplay1",
       "SupportedInMultiActions": false
     },
@@ -26,8 +26,38 @@
           "Image": "assets/icons/clock.png"
         }
       ],
-      "Tooltip": "Display Player 2 timer via WebSocket",
+      "Tooltip": "Display Player 2 timer via WebSocket (Canvas)",
       "UUID": "com.speedrun.timer.display.timerdisplay2",
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "TimerDisplayTitle1",
+      "Icon": "assets/icons/clock.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "TimerDisplayTitle1",
+          "Image": "assets/icons/clock.png"
+        }
+      ],
+      "Tooltip": "Display Player 1 timer via WebSocket (Title Text)",
+      "UUID": "com.speedrun.timer.display.timerdisplaytitle1",
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "TimerDisplayTitle2",
+      "Icon": "assets/icons/clock.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "TimerDisplayTitle2",
+          "Image": "assets/icons/clock.png"
+        }
+      ],
+      "Tooltip": "Display Player 2 timer via WebSocket (Title Text)",
+      "UUID": "com.speedrun.timer.display.timerdisplaytitle2",
       "SupportedInMultiActions": false
     }
   ],
