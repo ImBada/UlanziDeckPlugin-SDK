@@ -49,6 +49,17 @@ class TimerAction {
           this.showSuccess('Timers Reset');
           break;
 
+        case 'com.speedrun.timer.donation':
+          console.log('[TimerAction] Calling showOldestDonation()...');
+          result = await this.apiClient.showOldestDonation();
+          console.log('[TimerAction] showOldestDonation() result:', result);
+          if (result.donation) {
+            this.showSuccess('Donation Shown');
+          } else {
+            this.showSuccess('No Donations');
+          }
+          break;
+
         default:
           console.error('[TimerAction] Unknown action UUID:', this.actionUUID);
           this.showError('Unknown Action');

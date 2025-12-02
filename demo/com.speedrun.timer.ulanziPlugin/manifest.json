@@ -75,6 +75,25 @@
       "Tooltip": "Reset both timers",
       "UUID": "com.speedrun.timer.reset",
       "SupportedInMultiActions": true
+    },
+    {
+      "Name": "Show Donation",
+      "Icon": "assets/icons/plugin.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "Show Donation",
+          "Image": "assets/icons/plugin.png"
+        },
+        {
+          "Name": "Donation Shown",
+          "Image": "assets/icons/plugin.png"
+        }
+      ],
+      "Tooltip": "Show oldest unshown donation",
+      "UUID": "com.speedrun.timer.donation",
+      "SupportedInMultiActions": true
     }
   ],
   "Author": "Speedrun Timer",
