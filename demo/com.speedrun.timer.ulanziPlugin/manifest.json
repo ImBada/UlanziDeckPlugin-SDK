@@ -111,7 +111,7 @@
         }
       ],
       "Tooltip": "Show oldest unshown donation with empty message",
-      "UUID": "com.speedrun.timer.donation.empty",
+      "UUID": "com.speedrun.timer.donation_empty",
       "SupportedInMultiActions": true
     }
   ],

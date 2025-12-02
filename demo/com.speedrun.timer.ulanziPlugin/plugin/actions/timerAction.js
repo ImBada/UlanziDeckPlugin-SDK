@@ -60,7 +60,7 @@ class TimerAction {
           }
           break;
 
-        case 'com.speedrun.timer.donation.empty':
+        case 'com.speedrun.timer.donation_empty':
           console.log('[TimerAction] Calling showOldestDonationEmpty()...');
           result = await this.apiClient.showOldestDonationEmpty();
           console.log('[TimerAction] showOldestDonationEmpty() result:', result);
