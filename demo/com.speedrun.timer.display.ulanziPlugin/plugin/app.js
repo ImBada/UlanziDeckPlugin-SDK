@@ -25,13 +25,8 @@ $UD.onConnected(async conn => {
   console.log('Speedrun Timer Display Plugin Connected');
   console.log('[Display] Server URL:', loadServerUrl());
 
-  // Connect to SignalR for real-time timer updates
-  try {
-    await signalRClient.connect();
-    console.log('[Display] SignalR connected');
-  } catch (error) {
-    console.error('[Display] SignalR connection failed:', error);
-  }
+  // Connect to SignalR for real-time timer updates with automatic retry
+  await signalRClient.connectWithRetry();
 });
 
 /**

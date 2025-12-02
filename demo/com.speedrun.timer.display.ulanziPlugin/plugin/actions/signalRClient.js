@@ -16,6 +16,9 @@ class SignalRClient {
       1: null,
       2: null
     };
+    this.retryInterval = 5000; // Retry every 5 seconds
+    this.retryTimer = null;
+    this.isRetrying = false;
 
     console.log('[SignalRClient] Initialized with baseUrl:', this.baseUrl);
   }
@@ -65,12 +68,17 @@ class SignalRClient {
       this.connection.onclose((error) => {
         console.log('[SignalRClient] Connection closed:', error);
         this.isConnected = false;
+        // Start retry attempts when connection closes
+        this.startRetrying();
       });
 
       // Start connection
       await this.connection.start();
       this.isConnected = true;
       console.log('[SignalRClient] Connected successfully');
+
+      // Stop retry timer if it's running
+      this.stopRetrying();
 
       // Request initial timer status for both timers
       await this.requestTimerStatus(1);
@@ -80,6 +88,60 @@ class SignalRClient {
       console.error('[SignalRClient] Connection failed:', error);
       this.isConnected = false;
       throw error;
+    }
+  }
+
+  /**
+   * Connect with automatic retry on failure
+   * Attempts to connect and starts periodic retry if initial connection fails
+   */
+  async connectWithRetry() {
+    try {
+      await this.connect();
+    } catch (error) {
+      console.log('[SignalRClient] Initial connection failed, will retry every', this.retryInterval / 1000, 'seconds');
+      this.startRetrying();
+    }
+  }
+
+  /**
+   * Start periodic retry attempts to connect
+   */
+  startRetrying() {
+    // Don't start multiple retry timers
+    if (this.isRetrying) {
+      return;
+    }
+
+    this.isRetrying = true;
+    console.log('[SignalRClient] Starting retry attempts every', this.retryInterval / 1000, 'seconds');
+
+    this.retryTimer = setInterval(async () => {
+      if (this.isConnected) {
+        // Already connected, stop retrying
+        this.stopRetrying();
+        return;
+      }
+
+      console.log('[SignalRClient] Attempting to reconnect...');
+      try {
+        await this.connect();
+        console.log('[SignalRClient] Reconnection successful');
+      } catch (error) {
+        console.log('[SignalRClient] Reconnection attempt failed, will retry again');
+      }
+    }, this.retryInterval);
+  }
+
+  /**
+   * Stop retry attempts
+   */
+  stopRetrying() {
+    if (this.retryTimer) {
+      clearInterval(this.retryTimer);
+      this.retryTimer = null;
+      this.isRetrying = false;
+      console.log('[SignalRClient] Stopped retry attempts');
     }
   }
 
