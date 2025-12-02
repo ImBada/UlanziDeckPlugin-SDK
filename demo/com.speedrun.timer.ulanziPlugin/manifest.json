@@ -78,17 +78,17 @@
     },
     {
       "Name": "Show Donation",
-      "Icon": "assets/icons/plugin.png",
+      "Icon": "assets/icons/donation.png",
       "PropertyInspectorPath": "property-inspector/inspector.html",
       "State": 0,
       "States": [
         {
           "Name": "Show Donation",
-          "Image": "assets/icons/plugin.png"
+          "Image": "assets/icons/donation.png"
         },
         {
           "Name": "Donation Shown",
-          "Image": "assets/icons/plugin.png"
+          "Image": "assets/icons/donation@1.png"
         }
       ],
       "Tooltip": "Show oldest unshown donation",
