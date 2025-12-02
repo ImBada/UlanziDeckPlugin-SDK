@@ -110,4 +110,41 @@ class TimerAPIClient {
   async resume2P() {
     return this.sendCommand(2, 0);  // Type: Resume
   }
+
+  /**
+   * Show oldest unshown donation
+   */
+  async showOldestDonation() {
+    const url = `${this.baseUrl}/api/donation/show_oldest`;
+
+    console.log('[TimerAPIClient] Showing oldest donation:', url);
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      console.log('[TimerAPIClient] Response status:', response.status);
+      console.log('[TimerAPIClient] Response ok:', response.ok);
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('[TimerAPIClient] Server error:', error);
+        throw new Error(error.error || 'Unknown error');
+      }
+
+      const result = await response.json();
+      console.log('[TimerAPIClient] Success response:', result);
+      return result;
+    } catch (error) {
+      console.error('[TimerAPIClient] Fetch error:', error);
+      console.error('[TimerAPIClient] Error type:', error.name);
+      console.error('[TimerAPIClient] Error message:', error.message);
+      console.error('[TimerAPIClient] Error stack:', error.stack);
+      throw error;
+    }
+  }
 }
