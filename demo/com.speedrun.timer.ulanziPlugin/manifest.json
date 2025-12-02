@@ -94,6 +94,25 @@
       "Tooltip": "Show oldest unshown donation",
       "UUID": "com.speedrun.timer.donation",
       "SupportedInMultiActions": true
+    },
+    {
+      "Name": "Show Donation Empty",
+      "Icon": "assets/icons/donation_empty.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "Show Donation Empty",
+          "Image": "assets/icons/donation_empty.png"
+        },
+        {
+          "Name": "Empty Donation Shown",
+          "Image": "assets/icons/donation_empty@1.png"
+        }
+      ],
+      "Tooltip": "Show oldest unshown donation with empty message",
+      "UUID": "com.speedrun.timer.donation.empty",
+      "SupportedInMultiActions": true
     }
   ],
   "Author": "Speedrun Timer",

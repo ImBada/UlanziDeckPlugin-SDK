@@ -9,6 +9,7 @@
     "Reset": "Reset Timers",
     "Display1P": "Timer 1P Display",
     "Display2P": "Timer 2P Display",
-    "Donation": "Show Donation"
+    "Donation": "Show Donation",
+    "DonationEmpty": "Show Donation Empty"
   }
 }
