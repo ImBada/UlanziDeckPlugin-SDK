@@ -147,4 +147,41 @@ class TimerAPIClient {
       throw error;
     }
   }
+
+  /**
+   * Show oldest unshown donation with empty message
+   */
+  async showOldestDonationEmpty() {
+    const url = `${this.baseUrl}/api/donation/show_oldest_empty`;
+
+    console.log('[TimerAPIClient] Showing oldest donation with empty message:', url);
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+
+      console.log('[TimerAPIClient] Response status:', response.status);
+      console.log('[TimerAPIClient] Response ok:', response.ok);
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('[TimerAPIClient] Server error:', error);
+        throw new Error(error.error || 'Unknown error');
+      }
+
+      const result = await response.json();
+      console.log('[TimerAPIClient] Success response:', result);
+      return result;
+    } catch (error) {
+      console.error('[TimerAPIClient] Fetch error:', error);
+      console.error('[TimerAPIClient] Error type:', error.name);
+      console.error('[TimerAPIClient] Error message:', error.message);
+      console.error('[TimerAPIClient] Error stack:', error.stack);
+      throw error;
+    }
+  }
 }

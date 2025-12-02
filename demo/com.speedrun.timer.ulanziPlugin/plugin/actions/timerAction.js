@@ -60,6 +60,17 @@ class TimerAction {
           }
           break;
 
+        case 'com.speedrun.timer.donation_empty':
+          console.log('[TimerAction] Calling showOldestDonationEmpty()...');
+          result = await this.apiClient.showOldestDonationEmpty();
+          console.log('[TimerAction] showOldestDonationEmpty() result:', result);
+          if (result.donation) {
+            this.showSuccess('Empty Donation Shown');
+          } else {
+            this.showSuccess('No Donations');
+          }
+          break;
+
         default:
           console.error('[TimerAction] Unknown action UUID:', this.actionUUID);
           this.showError('Unknown Action');
