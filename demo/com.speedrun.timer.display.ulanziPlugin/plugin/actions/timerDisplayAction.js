@@ -26,7 +26,7 @@ class TimerDisplayAction {
     // Staggering: Assign unique offset per instance (not per timer ID)
     // This ensures multiple displays of the same timer are also staggered
     this.instanceId = TimerDisplayAction.instanceCount++;
-    this.updateOffset = this.instanceId * 40; // 0ms, 40ms, 80ms, 120ms, 160ms, etc.
+    this.updateOffset = this.instanceId * 40; // 0, 40, 80, 120, 160, etc.
 
     // Create and reuse canvas for better performance
     this.canvas = document.createElement('canvas');
@@ -100,7 +100,7 @@ class TimerDisplayAction {
 
   /**
    * Start animation loop using setTimeout
-   * Update interval: 100ms (~10fps) for smoother display updates
+   * Update interval: 1 second for display updates
    */
   startAnimationLoop() {
     if (!this.isRunning) {
@@ -113,8 +113,8 @@ class TimerDisplayAction {
       console.error('[TimerDisplayAction] Error in updateDisplay:', error);
     }
 
-    // 100ms interval = ~10fps (balanced smoothness and performance)
-    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 100);
+    // 1 second interval for display updates
+    this.animationFrameId = setTimeout(() => this.startAnimationLoop(), 1000);
   }
 
   /**
