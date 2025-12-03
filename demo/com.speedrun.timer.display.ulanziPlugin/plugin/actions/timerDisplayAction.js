@@ -42,11 +42,11 @@ class TimerDisplayAction {
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
 
-    // Pre-define colors for each status (cache)
+    // Pre-define colors for each status
     this.colors = {
-      reset: { main: '#FFFF00', millis: '#CCCC00' },    // Yellow
-      running: { main: '#FFFFFF', millis: '#CCCCCC' },  // White
-      paused: { main: '#FF0000', millis: '#CC0000' }    // Red
+      reset: '#FFFF00',    // Yellow
+      running: '#FFFFFF',  // White
+      paused: '#FF0000'    // Red
     };
 
     // Subscribe to timer updates
@@ -139,25 +139,18 @@ class TimerDisplayAction {
     this.ctx.fillStyle = '#000000';
     this.ctx.fillRect(0, 0, 72, 72);
 
-    // Split time string to fit on button
-    const timeParts = timeString.split('.');
-    const mainTime = timeParts[0];  // HH:MM:SS
-    const millis = timeParts[1];    // mmm
+    // Extract main time without milliseconds
+    const mainTime = timeString.split('.')[0];  // HH:MM:SS
 
-    // Get colors from cache based on timer status
+    // Get color based on timer status
     const color = this.currentStopwatch.status === 2 ? this.colors.reset :
                   this.currentStopwatch.status === 0 ? this.colors.running :
                   this.colors.paused;
 
-    // Main time - larger, no stroke for faster rendering
+    // Display time centered
     this.ctx.font = 'bold 14px monospace';
-    this.ctx.fillStyle = color.main;
-    this.ctx.fillText(mainTime, 36, 30);
-
-    // Milliseconds - smaller, no stroke
-    this.ctx.font = 'bold 11px monospace';
-    this.ctx.fillStyle = color.millis;
-    this.ctx.fillText('.' + millis, 36, 48);
+    this.ctx.fillStyle = color;
+    this.ctx.fillText(mainTime, 36, 36);
 
     // Convert canvas to base64
     const imageData = this.canvas.toDataURL('image/png').split(',')[1];
