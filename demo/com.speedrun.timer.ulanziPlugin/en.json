@@ -10,6 +10,14 @@
     "Display1P": "Timer 1P Display",
     "Display2P": "Timer 2P Display",
     "Donation": "Show Donation",
-    "DonationEmpty": "Show Donation Empty"
+    "DonationEmpty": "Show Donation Empty",
+    "AtemInput1": "ATEM Input 1",
+    "AtemInput2": "ATEM Input 2",
+    "AtemInput3": "ATEM Input 3",
+    "AtemInput4": "ATEM Input 4",
+    "AtemInput5": "ATEM Input 5",
+    "AtemInput6": "ATEM Input 6",
+    "AtemInput7": "ATEM Input 7",
+    "AtemInput8": "ATEM Input 8"
   }
 }

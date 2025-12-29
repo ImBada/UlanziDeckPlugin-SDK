@@ -113,6 +113,158 @@
       "Tooltip": "Show oldest unshown donation with empty message",
       "UUID": "com.speedrun.timer.donation_empty",
       "SupportedInMultiActions": true
+    },
+    {
+      "Name": "ATEM Input 1",
+      "Icon": "assets/icons/atem_input_1.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "ATEM Input 1",
+          "Image": "assets/icons/atem_input_1.png"
+        },
+        {
+          "Name": "ATEM Input 1 (Success)",
+          "Image": "assets/icons/atem_input_1@1.png"
+        }
+      ],
+      "Tooltip": "Set ATEM program to Input 1",
+      "UUID": "com.speedrun.timer.atem_input_1",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "ATEM Input 2",
+      "Icon": "assets/icons/atem_input_2.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "ATEM Input 2",
+          "Image": "assets/icons/atem_input_2.png"
+        },
+        {
+          "Name": "ATEM Input 2 (Success)",
+          "Image": "assets/icons/atem_input_2@1.png"
+        }
+      ],
+      "Tooltip": "Set ATEM program to Input 2",
+      "UUID": "com.speedrun.timer.atem_input_2",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "ATEM Input 3",
+      "Icon": "assets/icons/atem_input_3.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "ATEM Input 3",
+          "Image": "assets/icons/atem_input_3.png"
+        },
+        {
+          "Name": "ATEM Input 3 (Success)",
+          "Image": "assets/icons/atem_input_3@1.png"
+        }
+      ],
+      "Tooltip": "Set ATEM program to Input 3",
+      "UUID": "com.speedrun.timer.atem_input_3",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "ATEM Input 4",
+      "Icon": "assets/icons/atem_input_4.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "ATEM Input 4",
+          "Image": "assets/icons/atem_input_4.png"
+        },
+        {
+          "Name": "ATEM Input 4 (Success)",
+          "Image": "assets/icons/atem_input_4@1.png"
+        }
+      ],
+      "Tooltip": "Set ATEM program to Input 4",
+      "UUID": "com.speedrun.timer.atem_input_4",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "ATEM Input 5",
+      "Icon": "assets/icons/atem_input_5.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "ATEM Input 5",
+          "Image": "assets/icons/atem_input_5.png"
+        },
+        {
+          "Name": "ATEM Input 5 (Success)",
+          "Image": "assets/icons/atem_input_5@1.png"
+        }
+      ],
+      "Tooltip": "Set ATEM program to Input 5",
+      "UUID": "com.speedrun.timer.atem_input_5",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "ATEM Input 6",
+      "Icon": "assets/icons/atem_input_6.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "ATEM Input 6",
+          "Image": "assets/icons/atem_input_6.png"
+        },
+        {
+          "Name": "ATEM Input 6 (Success)",
+          "Image": "assets/icons/atem_input_6@1.png"
+        }
+      ],
+      "Tooltip": "Set ATEM program to Input 6",
+      "UUID": "com.speedrun.timer.atem_input_6",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "ATEM Input 7",
+      "Icon": "assets/icons/atem_input_7.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "ATEM Input 7",
+          "Image": "assets/icons/atem_input_7.png"
+        },
+        {
+          "Name": "ATEM Input 7 (Success)",
+          "Image": "assets/icons/atem_input_7@1.png"
+        }
+      ],
+      "Tooltip": "Set ATEM program to Input 7",
+      "UUID": "com.speedrun.timer.atem_input_7",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "ATEM Input 8",
+      "Icon": "assets/icons/atem_input_8.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "ATEM Input 8",
+          "Image": "assets/icons/atem_input_8.png"
+        },
+        {
+          "Name": "ATEM Input 8 (Success)",
+          "Image": "assets/icons/atem_input_8@1.png"
+        }
+      ],
+      "Tooltip": "Set ATEM program to Input 8",
+      "UUID": "com.speedrun.timer.atem_input_8",
+      "SupportedInMultiActions": true
     }
   ],
   "Author": "Speedrun Timer",

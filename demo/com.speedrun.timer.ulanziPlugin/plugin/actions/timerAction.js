@@ -71,6 +71,62 @@ class TimerAction {
           }
           break;
 
+        case 'com.speedrun.timer.atem_input_1':
+          console.log('[TimerAction] Calling setAtemInput1()...');
+          result = await this.apiClient.setAtemInput1();
+          console.log('[TimerAction] setAtemInput1() result:', result);
+          this.showSuccess('ATEM Input 1 Set');
+          break;
+
+        case 'com.speedrun.timer.atem_input_2':
+          console.log('[TimerAction] Calling setAtemInput2()...');
+          result = await this.apiClient.setAtemInput2();
+          console.log('[TimerAction] setAtemInput2() result:', result);
+          this.showSuccess('ATEM Input 2 Set');
+          break;
+
+        case 'com.speedrun.timer.atem_input_3':
+          console.log('[TimerAction] Calling setAtemInput3()...');
+          result = await this.apiClient.setAtemInput3();
+          console.log('[TimerAction] setAtemInput3() result:', result);
+          this.showSuccess('ATEM Input 3 Set');
+          break;
+
+        case 'com.speedrun.timer.atem_input_4':
+          console.log('[TimerAction] Calling setAtemInput4()...');
+          result = await this.apiClient.setAtemInput4();
+          console.log('[TimerAction] setAtemInput4() result:', result);
+          this.showSuccess('ATEM Input 4 Set');
+          break;
+
+        case 'com.speedrun.timer.atem_input_5':
+          console.log('[TimerAction] Calling setAtemInput5()...');
+          result = await this.apiClient.setAtemInput5();
+          console.log('[TimerAction] setAtemInput5() result:', result);
+          this.showSuccess('ATEM Input 5 Set');
+          break;
+
+        case 'com.speedrun.timer.atem_input_6':
+          console.log('[TimerAction] Calling setAtemInput6()...');
+          result = await this.apiClient.setAtemInput6();
+          console.log('[TimerAction] setAtemInput6() result:', result);
+          this.showSuccess('ATEM Input 6 Set');
+          break;
+
+        case 'com.speedrun.timer.atem_input_7':
+          console.log('[TimerAction] Calling setAtemInput7()...');
+          result = await this.apiClient.setAtemInput7();
+          console.log('[TimerAction] setAtemInput7() result:', result);
+          this.showSuccess('ATEM Input 7 Set');
+          break;
+
+        case 'com.speedrun.timer.atem_input_8':
+          console.log('[TimerAction] Calling setAtemInput8()...');
+          result = await this.apiClient.setAtemInput8();
+          console.log('[TimerAction] setAtemInput8() result:', result);
+          this.showSuccess('ATEM Input 8 Set');
+          break;
+
         default:
           console.error('[TimerAction] Unknown action UUID:', this.actionUUID);
           this.showError('Unknown Action');

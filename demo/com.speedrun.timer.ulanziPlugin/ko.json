@@ -9,6 +9,15 @@
     "Reset": "타이머 초기화",
     "Display1P": "1P 타이머 표시",
     "Display2P": "2P 타이머 표시",
-    "Donation": "후원 표시"
+    "Donation": "후원 표시",
+    "DonationEmpty": "후원 표시 (빈 메시지)",
+    "AtemInput1": "ATEM 입력 1",
+    "AtemInput2": "ATEM 입력 2",
+    "AtemInput3": "ATEM 입력 3",
+    "AtemInput4": "ATEM 입력 4",
+    "AtemInput5": "ATEM 입력 5",
+    "AtemInput6": "ATEM 입력 6",
+    "AtemInput7": "ATEM 입력 7",
+    "AtemInput8": "ATEM 입력 8"
   }
 }

@@ -184,4 +184,73 @@ class TimerAPIClient {
       throw error;
     }
   }
+
+  /**
+   * Set ATEM program input (1-8)
+   * @param {number} input - Input number (1-8)
+   */
+  async setAtemProgram(input) {
+    const url = `${this.baseUrl}/api/atem/set_program`;
+
+    console.log('[TimerAPIClient] Setting ATEM program to input:', input);
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(input)
+      });
+
+      console.log('[TimerAPIClient] Response status:', response.status);
+      console.log('[TimerAPIClient] Response ok:', response.ok);
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('[TimerAPIClient] Server error:', error);
+        throw new Error(error.error || 'Unknown error');
+      }
+
+      // Check if response has content before parsing JSON
+      const contentType = response.headers.get('content-type');
+      const text = await response.text();
+      console.log('[TimerAPIClient] Response text:', text);
+      console.log('[TimerAPIClient] Content-Type:', contentType);
+
+      // If response is empty or not JSON, return success object
+      if (!text || text.trim() === '') {
+        console.log('[TimerAPIClient] Empty response, assuming success');
+        return { success: true };
+      }
+
+      // Try to parse JSON
+      try {
+        const result = JSON.parse(text);
+        console.log('[TimerAPIClient] Success response:', result);
+        return result;
+      } catch (parseError) {
+        console.warn('[TimerAPIClient] Failed to parse JSON, assuming success:', parseError.message);
+        return { success: true };
+      }
+    } catch (error) {
+      console.error('[TimerAPIClient] Fetch error:', error);
+      console.error('[TimerAPIClient] Error type:', error.name);
+      console.error('[TimerAPIClient] Error message:', error.message);
+      console.error('[TimerAPIClient] Error stack:', error.stack);
+      throw error;
+    }
+  }
+
+  /**
+   * Convenience methods for each ATEM input
+   */
+  async setAtemInput1() { return this.setAtemProgram(1); }
+  async setAtemInput2() { return this.setAtemProgram(2); }
+  async setAtemInput3() { return this.setAtemProgram(3); }
+  async setAtemInput4() { return this.setAtemProgram(4); }
+  async setAtemInput5() { return this.setAtemProgram(5); }
+  async setAtemInput6() { return this.setAtemProgram(6); }
+  async setAtemInput7() { return this.setAtemProgram(7); }
+  async setAtemInput8() { return this.setAtemProgram(8); }
 }
