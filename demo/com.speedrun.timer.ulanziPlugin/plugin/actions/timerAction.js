@@ -127,6 +127,34 @@ class TimerAction {
           this.showSuccess('ATEM Input 8 Set');
           break;
 
+        case 'com.speedrun.timer.obs_togame':
+          console.log('[TimerAction] Calling obsToGame()...');
+          result = await this.apiClient.obsToGame();
+          console.log('[TimerAction] obsToGame() result:', result);
+          this.showSuccess('OBS ToGame');
+          break;
+
+        case 'com.speedrun.timer.obs_tomain':
+          console.log('[TimerAction] Calling obsToMain()...');
+          result = await this.apiClient.obsToMain();
+          console.log('[TimerAction] obsToMain() result:', result);
+          this.showSuccess('OBS ToMain');
+          break;
+
+        case 'com.speedrun.timer.obs_tocamera':
+          console.log('[TimerAction] Calling obsToCamera()...');
+          result = await this.apiClient.obsToCamera();
+          console.log('[TimerAction] obsToCamera() result:', result);
+          this.showSuccess('OBS ToCamera');
+          break;
+
+        case 'com.speedrun.timer.obs_refresh':
+          console.log('[TimerAction] Calling obsRefresh()...');
+          result = await this.apiClient.obsRefresh();
+          console.log('[TimerAction] obsRefresh() result:', result);
+          this.showSuccess('OBS Refresh');
+          break;
+
         default:
           console.error('[TimerAction] Unknown action UUID:', this.actionUUID);
           this.showError('Unknown Action');

@@ -265,13 +265,89 @@
       "Tooltip": "Set ATEM program to Input 8",
       "UUID": "com.speedrun.timer.atem_input_8",
       "SupportedInMultiActions": true
+    },
+    {
+      "Name": "OBS ToGame",
+      "Icon": "assets/icons/obs_togame.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "OBS ToGame",
+          "Image": "assets/icons/obs_togame.png"
+        },
+        {
+          "Name": "ToGame (Success)",
+          "Image": "assets/icons/obs_togame@1.png"
+        }
+      ],
+      "Tooltip": "Switch OBS to game scene and transition mixer",
+      "UUID": "com.speedrun.timer.obs_togame",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "OBS ToMain",
+      "Icon": "assets/icons/obs_tomain.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "OBS ToMain",
+          "Image": "assets/icons/obs_tomain.png"
+        },
+        {
+          "Name": "ToMain (Success)",
+          "Image": "assets/icons/obs_tomain@1.png"
+        }
+      ],
+      "Tooltip": "Switch OBS to main scene and transition mixer",
+      "UUID": "com.speedrun.timer.obs_tomain",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "OBS ToCamera",
+      "Icon": "assets/icons/obs_tocamera.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "OBS ToCamera",
+          "Image": "assets/icons/obs_tocamera.png"
+        },
+        {
+          "Name": "ToCamera (Success)",
+          "Image": "assets/icons/obs_tocamera@1.png"
+        }
+      ],
+      "Tooltip": "Switch OBS to camera scene",
+      "UUID": "com.speedrun.timer.obs_tocamera",
+      "SupportedInMultiActions": true
+    },
+    {
+      "Name": "OBS Refresh",
+      "Icon": "assets/icons/obs_refresh.png",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "State": 0,
+      "States": [
+        {
+          "Name": "OBS Refresh",
+          "Image": "assets/icons/obs_refresh.png"
+        },
+        {
+          "Name": "Refresh (Success)",
+          "Image": "assets/icons/obs_refresh@1.png"
+        }
+      ],
+      "Tooltip": "Go to camera and refresh browser sources",
+      "UUID": "com.speedrun.timer.obs_refresh",
+      "SupportedInMultiActions": true
     }
   ],
   "Author": "Speedrun Timer",
   "Name": "Speedrun Timer",
   "Description": "Control speedrun event timers via localhost:5010 API (lightweight control buttons)",
   "Icon": "assets/icons/plugin.png",
-  "Version": "1.2.0",
+  "Version": "1.3.0",
   "Category": "Speedrun",
   "CategoryIcon": "assets/icons/category.png",
   "CodePath": "plugin/app.html",

@@ -206,18 +206,28 @@ class TimerAPIClient {
       console.log('[TimerAPIClient] Response status:', response.status);
       console.log('[TimerAPIClient] Response ok:', response.ok);
 
-      if (!response.ok) {
-        const error = await response.json();
-        console.error('[TimerAPIClient] Server error:', error);
-        throw new Error(error.error || 'Unknown error');
-      }
-
-      // Check if response has content before parsing JSON
-      const contentType = response.headers.get('content-type');
+      // Get response text first to handle both success and error cases
       const text = await response.text();
       console.log('[TimerAPIClient] Response text:', text);
-      console.log('[TimerAPIClient] Content-Type:', contentType);
 
+      if (!response.ok) {
+        // Try to parse error response, but handle empty responses
+        try {
+          if (text && text.trim() !== '') {
+            const error = JSON.parse(text);
+            console.error('[TimerAPIClient] Server error:', error);
+            throw new Error(error.error || `HTTP ${response.status}`);
+          } else {
+            console.error('[TimerAPIClient] Server error with empty response');
+            throw new Error(`HTTP ${response.status}`);
+          }
+        } catch (parseError) {
+          console.error('[TimerAPIClient] Failed to parse error response:', parseError.message);
+          throw new Error(`HTTP ${response.status}`);
+        }
+      }
+
+      // Success response handling
       // If response is empty or not JSON, return success object
       if (!text || text.trim() === '') {
         console.log('[TimerAPIClient] Empty response, assuming success');
@@ -253,4 +263,79 @@ class TimerAPIClient {
   async setAtemInput6() { return this.setAtemProgram(6); }
   async setAtemInput7() { return this.setAtemProgram(7); }
   async setAtemInput8() { return this.setAtemProgram(8); }
+
+  /**
+   * OBS Scene Change Commands
+   * @param {string} command - Scene change command (ToGame, ToMain, ToCamera, Refresh)
+   */
+  async obsSceneChange(command) {
+    const url = `${this.baseUrl}/api/obs`;
+
+    console.log('[TimerAPIClient] OBS scene change:', command);
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(command)
+      });
+
+      console.log('[TimerAPIClient] Response status:', response.status);
+      console.log('[TimerAPIClient] Response ok:', response.ok);
+
+      // Get response text first to handle both success and error cases
+      const text = await response.text();
+      console.log('[TimerAPIClient] Response text:', text);
+
+      if (!response.ok) {
+        // Try to parse error response, but handle empty responses
+        try {
+          if (text && text.trim() !== '') {
+            const error = JSON.parse(text);
+            console.error('[TimerAPIClient] Server error:', error);
+            throw new Error(error.error || `HTTP ${response.status}`);
+          } else {
+            console.error('[TimerAPIClient] Server error with empty response');
+            throw new Error(`HTTP ${response.status}`);
+          }
+        } catch (parseError) {
+          console.error('[TimerAPIClient] Failed to parse error response:', parseError.message);
+          throw new Error(`HTTP ${response.status}`);
+        }
+      }
+
+      // Success response handling
+      // If response is empty or not JSON, return success object
+      if (!text || text.trim() === '') {
+        console.log('[TimerAPIClient] Empty response, assuming success');
+        return { success: true };
+      }
+
+      // Try to parse JSON
+      try {
+        const result = JSON.parse(text);
+        console.log('[TimerAPIClient] Success response:', result);
+        return result;
+      } catch (parseError) {
+        console.warn('[TimerAPIClient] Failed to parse JSON, assuming success:', parseError.message);
+        return { success: true };
+      }
+    } catch (error) {
+      console.error('[TimerAPIClient] Fetch error:', error);
+      console.error('[TimerAPIClient] Error type:', error.name);
+      console.error('[TimerAPIClient] Error message:', error.message);
+      console.error('[TimerAPIClient] Error stack:', error.stack);
+      throw error;
+    }
+  }
+
+  /**
+   * Convenience methods for OBS scene changes
+   */
+  async obsToGame() { return this.obsSceneChange('ToGame'); }
+  async obsToMain() { return this.obsSceneChange('ToMain'); }
+  async obsToCamera() { return this.obsSceneChange('ToCamera'); }
+  async obsRefresh() { return this.obsSceneChange('Refresh'); }
 }
