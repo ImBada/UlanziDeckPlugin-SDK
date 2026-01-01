@@ -24,14 +24,21 @@ class TimerAPIClient {
     console.log('[TimerAPIClient] Sending command to:', url);
     console.log('[TimerAPIClient] Payload:', payload);
 
+    // Add timeout protection (5 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       console.log('[TimerAPIClient] Response status:', response.status);
       console.log('[TimerAPIClient] Response ok:', response.ok);
@@ -46,6 +53,13 @@ class TimerAPIClient {
       console.log('[TimerAPIClient] Success response:', result);
       return result;
     } catch (error) {
+      clearTimeout(timeoutId);
+
+      if (error.name === 'AbortError') {
+        console.error('[TimerAPIClient] Request timeout after 5 seconds');
+        throw new Error('Request timeout');
+      }
+
       console.error('[TimerAPIClient] Fetch error:', error);
       console.error('[TimerAPIClient] Error type:', error.name);
       console.error('[TimerAPIClient] Error message:', error.message);
@@ -90,11 +104,13 @@ class TimerAPIClient {
   }
 
   /**
-   * Reset both timers
+   * Reset both timers (parallel execution)
    */
   async resetBoth() {
-    await this.reset1P();
-    await this.reset2P();
+    await Promise.all([
+      this.reset1P(),
+      this.reset2P()
+    ]);
   }
 
   /**
@@ -119,13 +135,20 @@ class TimerAPIClient {
 
     console.log('[TimerAPIClient] Showing oldest donation:', url);
 
+    // Add timeout protection (5 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       console.log('[TimerAPIClient] Response status:', response.status);
       console.log('[TimerAPIClient] Response ok:', response.ok);
@@ -140,6 +163,13 @@ class TimerAPIClient {
       console.log('[TimerAPIClient] Success response:', result);
       return result;
     } catch (error) {
+      clearTimeout(timeoutId);
+
+      if (error.name === 'AbortError') {
+        console.error('[TimerAPIClient] Request timeout after 5 seconds');
+        throw new Error('Request timeout');
+      }
+
       console.error('[TimerAPIClient] Fetch error:', error);
       console.error('[TimerAPIClient] Error type:', error.name);
       console.error('[TimerAPIClient] Error message:', error.message);
@@ -156,13 +186,20 @@ class TimerAPIClient {
 
     console.log('[TimerAPIClient] Showing oldest donation with empty message:', url);
 
+    // Add timeout protection (5 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        }
+        },
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       console.log('[TimerAPIClient] Response status:', response.status);
       console.log('[TimerAPIClient] Response ok:', response.ok);
@@ -177,6 +214,13 @@ class TimerAPIClient {
       console.log('[TimerAPIClient] Success response:', result);
       return result;
     } catch (error) {
+      clearTimeout(timeoutId);
+
+      if (error.name === 'AbortError') {
+        console.error('[TimerAPIClient] Request timeout after 5 seconds');
+        throw new Error('Request timeout');
+      }
+
       console.error('[TimerAPIClient] Fetch error:', error);
       console.error('[TimerAPIClient] Error type:', error.name);
       console.error('[TimerAPIClient] Error message:', error.message);
@@ -194,14 +238,21 @@ class TimerAPIClient {
 
     console.log('[TimerAPIClient] Setting ATEM program to input:', input);
 
+    // Add timeout protection (5 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(input)
+        body: JSON.stringify(input),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       console.log('[TimerAPIClient] Response status:', response.status);
       console.log('[TimerAPIClient] Response ok:', response.ok);
@@ -244,6 +295,13 @@ class TimerAPIClient {
         return { success: true };
       }
     } catch (error) {
+      clearTimeout(timeoutId);
+
+      if (error.name === 'AbortError') {
+        console.error('[TimerAPIClient] Request timeout after 5 seconds');
+        throw new Error('Request timeout');
+      }
+
       console.error('[TimerAPIClient] Fetch error:', error);
       console.error('[TimerAPIClient] Error type:', error.name);
       console.error('[TimerAPIClient] Error message:', error.message);
@@ -273,14 +331,21 @@ class TimerAPIClient {
 
     console.log('[TimerAPIClient] OBS scene change:', command);
 
+    // Add timeout protection (5 seconds)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(command)
+        body: JSON.stringify(command),
+        signal: controller.signal
       });
+
+      clearTimeout(timeoutId);
 
       console.log('[TimerAPIClient] Response status:', response.status);
       console.log('[TimerAPIClient] Response ok:', response.ok);
@@ -323,6 +388,13 @@ class TimerAPIClient {
         return { success: true };
       }
     } catch (error) {
+      clearTimeout(timeoutId);
+
+      if (error.name === 'AbortError') {
+        console.error('[TimerAPIClient] Request timeout after 5 seconds');
+        throw new Error('Request timeout');
+      }
+
       console.error('[TimerAPIClient] Fetch error:', error);
       console.error('[TimerAPIClient] Error type:', error.name);
       console.error('[TimerAPIClient] Error message:', error.message);

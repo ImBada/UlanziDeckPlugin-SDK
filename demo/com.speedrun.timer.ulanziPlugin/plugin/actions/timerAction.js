@@ -189,6 +189,9 @@ class TimerAction {
   showError(message) {
     console.error('[ERROR]', message);
 
+    // Show error toast notification
+    $UD.showAlert(this.context, message);
+
     // Keep button in normal state (state 0) on error
     $UD.setStateIcon(this.context, 0);
   }
